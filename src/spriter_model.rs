@@ -732,6 +732,180 @@ pub enum SpriterVarType {
     Float,
 }
 
+/// Trait for types that can be used as Spriter keys
+pub trait SpriterKeyTrait {
+    fn id(&self) -> i32;
+    fn name(&self) -> &str;
+    fn time(&self) -> f32;
+    fn curve_type(&self) -> SpriterCurveType;
+    fn c1(&self) -> f32;
+    fn c2(&self) -> f32;
+    fn c3(&self) -> f32;
+    fn c4(&self) -> f32;
+}
+
+impl SpriterKeyTrait for SpriterKey {
+    fn id(&self) -> i32 {
+        self.id
+    }
+    fn name(&self) -> &str {
+        &self.name
+    }
+    fn time(&self) -> f32 {
+        self.time
+    }
+    fn curve_type(&self) -> SpriterCurveType {
+        self.curve_type
+    }
+    fn c1(&self) -> f32 {
+        self.c1
+    }
+    fn c2(&self) -> f32 {
+        self.c2
+    }
+    fn c3(&self) -> f32 {
+        self.c3
+    }
+    fn c4(&self) -> f32 {
+        self.c4
+    }
+}
+
+impl SpriterKeyTrait for SpriterMainlineKey {
+    fn id(&self) -> i32 {
+        self.id
+    }
+    fn name(&self) -> &str {
+        &self.name
+    }
+    fn time(&self) -> f32 {
+        self.time
+    }
+    fn curve_type(&self) -> SpriterCurveType {
+        self.curve_type
+    }
+    fn c1(&self) -> f32 {
+        self.c1
+    }
+    fn c2(&self) -> f32 {
+        self.c2
+    }
+    fn c3(&self) -> f32 {
+        self.c3
+    }
+    fn c4(&self) -> f32 {
+        self.c4
+    }
+}
+
+impl SpriterKeyTrait for SpriterTimelineKey {
+    fn id(&self) -> i32 {
+        self.id
+    }
+    fn name(&self) -> &str {
+        &self.name
+    }
+    fn time(&self) -> f32 {
+        self.time
+    }
+    fn curve_type(&self) -> SpriterCurveType {
+        self.curve_type
+    }
+    fn c1(&self) -> f32 {
+        self.c1
+    }
+    fn c2(&self) -> f32 {
+        self.c2
+    }
+    fn c3(&self) -> f32 {
+        self.c3
+    }
+    fn c4(&self) -> f32 {
+        self.c4
+    }
+}
+
+impl SpriterKeyTrait for SpriterVarlineKey {
+    fn id(&self) -> i32 {
+        self.id
+    }
+    fn name(&self) -> &str {
+        &self.name
+    }
+    fn time(&self) -> f32 {
+        self.time
+    }
+    fn curve_type(&self) -> SpriterCurveType {
+        self.curve_type
+    }
+    fn c1(&self) -> f32 {
+        self.c1
+    }
+    fn c2(&self) -> f32 {
+        self.c2
+    }
+    fn c3(&self) -> f32 {
+        self.c3
+    }
+    fn c4(&self) -> f32 {
+        self.c4
+    }
+}
+
+impl SpriterKeyTrait for SpriterTaglineKey {
+    fn id(&self) -> i32 {
+        self.id
+    }
+    fn name(&self) -> &str {
+        &self.name
+    }
+    fn time(&self) -> f32 {
+        self.time
+    }
+    fn curve_type(&self) -> SpriterCurveType {
+        self.curve_type
+    }
+    fn c1(&self) -> f32 {
+        self.c1
+    }
+    fn c2(&self) -> f32 {
+        self.c2
+    }
+    fn c3(&self) -> f32 {
+        self.c3
+    }
+    fn c4(&self) -> f32 {
+        self.c4
+    }
+}
+
+impl SpriterKeyTrait for SpriterSoundlineKey {
+    fn id(&self) -> i32 {
+        self.id
+    }
+    fn name(&self) -> &str {
+        &self.name
+    }
+    fn time(&self) -> f32 {
+        self.time
+    }
+    fn curve_type(&self) -> SpriterCurveType {
+        self.curve_type
+    }
+    fn c1(&self) -> f32 {
+        self.c1
+    }
+    fn c2(&self) -> f32 {
+        self.c2
+    }
+    fn c3(&self) -> f32 {
+        self.c3
+    }
+    fn c4(&self) -> f32 {
+        self.c4
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
