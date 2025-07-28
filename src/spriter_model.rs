@@ -732,10 +732,14 @@ pub enum SpriterVarType {
     Float,
 }
 
-/// Trait for types that can be used as Spriter keys
-pub trait SpriterKeyTrait {
+/// Trait for types that have id and name fields
+pub trait SpriterElementTrait {
     fn id(&self) -> i32;
     fn name(&self) -> &str;
+}
+
+/// Trait for types that can be used as Spriter keys
+pub trait SpriterKeyTrait: SpriterElementTrait {
     fn time(&self) -> f32;
     fn curve_type(&self) -> SpriterCurveType;
     fn c1(&self) -> f32;
@@ -744,167 +748,143 @@ pub trait SpriterKeyTrait {
     fn c4(&self) -> f32;
 }
 
-impl SpriterKeyTrait for SpriterKey {
-    fn id(&self) -> i32 {
-        self.id
-    }
-    fn name(&self) -> &str {
-        &self.name
-    }
-    fn time(&self) -> f32 {
-        self.time
-    }
-    fn curve_type(&self) -> SpriterCurveType {
-        self.curve_type
-    }
-    fn c1(&self) -> f32 {
-        self.c1
-    }
-    fn c2(&self) -> f32 {
-        self.c2
-    }
-    fn c3(&self) -> f32 {
-        self.c3
-    }
-    fn c4(&self) -> f32 {
-        self.c4
-    }
+pub trait SpriterRefTrait: SpriterElementTrait {
+    fn parent_id(&self) -> i32;
+    fn timeline_id(&self) -> i32;
+    fn key_id(&self) -> i32;
 }
 
-impl SpriterKeyTrait for SpriterMainlineKey {
-    fn id(&self) -> i32 {
-        self.id
-    }
-    fn name(&self) -> &str {
-        &self.name
-    }
-    fn time(&self) -> f32 {
-        self.time
-    }
-    fn curve_type(&self) -> SpriterCurveType {
-        self.curve_type
-    }
-    fn c1(&self) -> f32 {
-        self.c1
-    }
-    fn c2(&self) -> f32 {
-        self.c2
-    }
-    fn c3(&self) -> f32 {
-        self.c3
-    }
-    fn c4(&self) -> f32 {
-        self.c4
-    }
+pub trait SpriterSpatialTrait {
+    fn x(&self) -> f32;
+    fn y(&self) -> f32;
+    fn angle(&self) -> f32;
+    fn scale_x(&self) -> f32;
+    fn scale_y(&self) -> f32;
+    fn alpha(&self) -> f32;
 }
 
-impl SpriterKeyTrait for SpriterTimelineKey {
-    fn id(&self) -> i32 {
-        self.id
-    }
-    fn name(&self) -> &str {
-        &self.name
-    }
-    fn time(&self) -> f32 {
-        self.time
-    }
-    fn curve_type(&self) -> SpriterCurveType {
-        self.curve_type
-    }
-    fn c1(&self) -> f32 {
-        self.c1
-    }
-    fn c2(&self) -> f32 {
-        self.c2
-    }
-    fn c3(&self) -> f32 {
-        self.c3
-    }
-    fn c4(&self) -> f32 {
-        self.c4
-    }
+/// Macro to implement SpriterElementTrait for a struct with id and name fields
+macro_rules! impl_spriter_element_trait {
+    ($struct_name:ty) => {
+        impl SpriterElementTrait for $struct_name {
+            fn id(&self) -> i32 {
+                self.id
+            }
+            fn name(&self) -> &str {
+                &self.name
+            }
+        }
+    };
 }
 
-impl SpriterKeyTrait for SpriterVarlineKey {
-    fn id(&self) -> i32 {
-        self.id
-    }
-    fn name(&self) -> &str {
-        &self.name
-    }
-    fn time(&self) -> f32 {
-        self.time
-    }
-    fn curve_type(&self) -> SpriterCurveType {
-        self.curve_type
-    }
-    fn c1(&self) -> f32 {
-        self.c1
-    }
-    fn c2(&self) -> f32 {
-        self.c2
-    }
-    fn c3(&self) -> f32 {
-        self.c3
-    }
-    fn c4(&self) -> f32 {
-        self.c4
-    }
+/// Macro to implement SpriterKeyTrait for a struct with time, curve_type, and c1-c4 fields
+macro_rules! impl_spriter_key_trait {
+    ($struct_name:ty) => {
+        impl SpriterKeyTrait for $struct_name {
+            fn time(&self) -> f32 {
+                self.time
+            }
+            fn curve_type(&self) -> SpriterCurveType {
+                self.curve_type
+            }
+            fn c1(&self) -> f32 {
+                self.c1
+            }
+            fn c2(&self) -> f32 {
+                self.c2
+            }
+            fn c3(&self) -> f32 {
+                self.c3
+            }
+            fn c4(&self) -> f32 {
+                self.c4
+            }
+        }
+    };
 }
 
-impl SpriterKeyTrait for SpriterTaglineKey {
-    fn id(&self) -> i32 {
-        self.id
-    }
-    fn name(&self) -> &str {
-        &self.name
-    }
-    fn time(&self) -> f32 {
-        self.time
-    }
-    fn curve_type(&self) -> SpriterCurveType {
-        self.curve_type
-    }
-    fn c1(&self) -> f32 {
-        self.c1
-    }
-    fn c2(&self) -> f32 {
-        self.c2
-    }
-    fn c3(&self) -> f32 {
-        self.c3
-    }
-    fn c4(&self) -> f32 {
-        self.c4
-    }
+/// Macro to implement SpriterRefTrait for a struct with parent_id, timeline_id, and key_id fields
+macro_rules! impl_spriter_ref_trait {
+    ($struct_name:ty) => {
+        impl SpriterRefTrait for $struct_name {
+            fn parent_id(&self) -> i32 {
+                self.parent_id
+            }
+            fn timeline_id(&self) -> i32 {
+                self.timeline_id
+            }
+            fn key_id(&self) -> i32 {
+                self.key_id
+            }
+        }
+    };
 }
 
-impl SpriterKeyTrait for SpriterSoundlineKey {
-    fn id(&self) -> i32 {
-        self.id
-    }
-    fn name(&self) -> &str {
-        &self.name
-    }
-    fn time(&self) -> f32 {
-        self.time
-    }
-    fn curve_type(&self) -> SpriterCurveType {
-        self.curve_type
-    }
-    fn c1(&self) -> f32 {
-        self.c1
-    }
-    fn c2(&self) -> f32 {
-        self.c2
-    }
-    fn c3(&self) -> f32 {
-        self.c3
-    }
-    fn c4(&self) -> f32 {
-        self.c4
-    }
+/// Macro to implement SpriterSpatialTrait for a struct with x, y, angle, scale_x, scale_y, and alpha fields
+macro_rules! impl_spriter_spatial_trait {
+    ($struct_name:ty) => {
+        impl SpriterSpatialTrait for $struct_name {
+            fn x(&self) -> f32 {
+                self.x
+            }
+            fn y(&self) -> f32 {
+                self.y
+            }
+            fn angle(&self) -> f32 {
+                self.angle
+            }
+            fn scale_x(&self) -> f32 {
+                self.scale_x
+            }
+            fn scale_y(&self) -> f32 {
+                self.scale_y
+            }
+            fn alpha(&self) -> f32 {
+                self.alpha
+            }
+        }
+    };
 }
+
+// Implement SpriterElementTrait for all structs with id and name fields
+impl_spriter_element_trait!(SpriterFolder);
+impl_spriter_element_trait!(SpriterFile);
+impl_spriter_element_trait!(SpriterEntity);
+impl_spriter_element_trait!(SpriterObjectInfo);
+impl_spriter_element_trait!(SpriterAnimation);
+impl_spriter_element_trait!(SpriterMainlineKey);
+impl_spriter_element_trait!(SpriterRef);
+impl_spriter_element_trait!(SpriterObjectRef);
+impl_spriter_element_trait!(SpriterTimeline);
+impl_spriter_element_trait!(SpriterTimelineKey);
+impl_spriter_element_trait!(SpriterCharacterMap);
+impl_spriter_element_trait!(SpriterVarDef);
+impl_spriter_element_trait!(SpriterVarline);
+impl_spriter_element_trait!(SpriterVarlineKey);
+impl_spriter_element_trait!(SpriterEventline);
+impl_spriter_element_trait!(SpriterTaglineKey);
+impl_spriter_element_trait!(SpriterTag);
+impl_spriter_element_trait!(SpriterSoundline);
+impl_spriter_element_trait!(SpriterSoundlineKey);
+impl_spriter_element_trait!(SpriterSound);
+impl_spriter_element_trait!(SpriterElement);
+impl_spriter_element_trait!(SpriterKey);
+
+// Implement SpriterKeyTrait for all structs with time, curve_type, and c1-c4 fields
+impl_spriter_key_trait!(SpriterKey);
+impl_spriter_key_trait!(SpriterMainlineKey);
+impl_spriter_key_trait!(SpriterTimelineKey);
+impl_spriter_key_trait!(SpriterVarlineKey);
+impl_spriter_key_trait!(SpriterTaglineKey);
+impl_spriter_key_trait!(SpriterSoundlineKey);
+
+// Implement SpriterRefTrait for all structs with parent_id, timeline_id, and key_id fields
+impl_spriter_ref_trait!(SpriterRef);
+impl_spriter_ref_trait!(SpriterObjectRef);
+
+// Implement SpriterSpatialTrait for all structs with x, y, angle, scale_x, scale_y, and alpha fields
+impl_spriter_spatial_trait!(SpriterSpatial);
+impl_spriter_spatial_trait!(SpriterObject);
 
 #[cfg(test)]
 mod tests {
