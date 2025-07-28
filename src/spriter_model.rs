@@ -107,7 +107,7 @@ pub struct VarDefsList {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SpriterObjectInfo {
-    #[serde(rename = "@id")]
+    #[serde(rename = "@id", default)]
     pub id: i32,
 
     #[serde(rename = "@name")]
@@ -180,7 +180,7 @@ pub struct SpriterMainlineKey {
     #[serde(rename = "@id")]
     pub id: i32,
 
-    #[serde(rename = "@name")]
+    #[serde(rename = "@name", default)]
     pub name: String,
 
     #[serde(rename = "@time", default)]
@@ -213,7 +213,7 @@ pub struct SpriterRef {
     #[serde(rename = "@id")]
     pub id: i32,
 
-    #[serde(rename = "@name")]
+    #[serde(rename = "@name", default)]
     pub name: String,
 
     #[serde(rename = "@parent", default = "default_parent_id")]
@@ -235,7 +235,7 @@ pub struct SpriterObjectRef {
     #[serde(rename = "@id")]
     pub id: i32,
 
-    #[serde(rename = "@name")]
+    #[serde(rename = "@name", default)]
     pub name: String,
 
     #[serde(rename = "@parent", default = "default_parent_id")]
@@ -277,7 +277,7 @@ pub struct SpriterTimelineKey {
     #[serde(rename = "@id")]
     pub id: i32,
 
-    #[serde(rename = "@name")]
+    #[serde(rename = "@name", default)]
     pub name: String,
 
     #[serde(rename = "@time", default)]
@@ -675,9 +675,10 @@ pub struct SpriterKey {
     pub c4: f32,
 }
 
-#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, Default)]
 pub enum SpriterObjectType {
     #[serde(rename = "sprite")]
+    #[default]
     Sprite,
     #[serde(rename = "bone")]
     Bone,
@@ -693,15 +694,10 @@ pub enum SpriterObjectType {
     Variable,
 }
 
-impl Default for SpriterObjectType {
-    fn default() -> Self {
-        SpriterObjectType::Sprite
-    }
-}
-
-#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, Default)]
 pub enum SpriterCurveType {
     #[serde(rename = "linear")]
+    #[default]
     Linear,
     #[serde(rename = "instant")]
     Instant,
@@ -717,39 +713,23 @@ pub enum SpriterCurveType {
     Bezier,
 }
 
-impl Default for SpriterCurveType {
-    fn default() -> Self {
-        SpriterCurveType::Linear
-    }
-}
-
-#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, Default)]
 pub enum SpriterFileType {
+    #[default]
     Image,
     #[serde(rename = "sound")]
     Sound,
 }
 
-impl Default for SpriterFileType {
-    fn default() -> Self {
-        SpriterFileType::Image
-    }
-}
-
-#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, Default)]
 pub enum SpriterVarType {
     #[serde(rename = "string")]
+    #[default]
     String,
     #[serde(rename = "int")]
     Int,
     #[serde(rename = "float")]
     Float,
-}
-
-impl Default for SpriterVarType {
-    fn default() -> Self {
-        SpriterVarType::String
-    }
 }
 
 #[cfg(test)]
@@ -782,10 +762,6 @@ mod tests {
         dbg!(first_folder);
         assert_eq!(first_folder.id, 0);
         assert_eq!(first_folder.name, "torso");
-        assert!(
-            !first_folder.files.is_empty(),
-            "First folder should have files"
-        );
 
         // Check first file in first folder
         let first_file = &first_folder.files[0];
@@ -793,6 +769,8 @@ mod tests {
         assert_eq!(first_file.name, "torso/p_torso_idle.png");
         assert_eq!(first_file.width, 88);
         assert_eq!(first_file.height, 88);
+        assert_eq!(first_file.pivot_x, 0.911111);
+        assert_eq!(first_file.pivot_y, 0.555556);
 
         // Check entities exist and have animations
         let first_entity = &spriter.entities[0];

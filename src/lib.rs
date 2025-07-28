@@ -1,1 +1,1 @@
-mod spriter_model;
+pub mod spriter_model;
